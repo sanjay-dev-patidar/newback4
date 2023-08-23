@@ -119,7 +119,7 @@ app.get('/api/:collection', async (req, res) => {
   }
 });
 
-// Route for submitting feedback
+app.use(express.json());
 app.post('/api/submit-feedback', async (req, res) => {
   try {
     const { name, email, feedback } = req.body;
