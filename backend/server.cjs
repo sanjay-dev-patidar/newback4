@@ -31,6 +31,14 @@ const Working = mongoose.model('working', { title: String, overview: [String], d
 const Feedback = mongoose.model('feedback', { name: String, email: String, feedback: String, });
 const Query = mongoose.model('query', { name: String, email: String, query: String, });
 
+// Serve static assets
+app.use(express.static(path.join(__dirname, 'src')));
+
+// Fallback route to serve your main index.html for all other routes
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'src', 'index.html'));
+});
+
 app.get('/api/:collection', async (req, res) => {
   const collection = req.params.collection;
   try {
@@ -83,14 +91,6 @@ app.post('/api/submit-query', async (req, res) => {
   } catch (error) {
     res.status(500).json({ error: 'Error submitting query' });
   }
-});
-
-// Serve static assets
-app.use(express.static(path.join(__dirname, 'src')));
-
-// Fallback route to serve your main index.html for all other routes
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'src', 'index.html'));
 });
 
 app.listen(port, () => {
